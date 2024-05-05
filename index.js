@@ -30,12 +30,10 @@ class BattleStage {
   attack(player1, player2) {
     while (player1.health >= 0 || player2.health >= 0) {
       if (player1.health <= 0) {
-        console.log("winning");
         return this.winner(player2);
       }
 
       if (player2.health <= 0) {
-        console.log("winnerrrr");
         return this.winner(player1);
       }
       if (this.turn == "player") {
@@ -122,16 +120,25 @@ class Player {
     }
     return this.exp;
   }
+
+  createEnemy() {
+    const num = Math.floor(Math.random() * 1000);
+    const possibleTypes = ["fighter", "warrior"];
+    const randomNum = Math.floor(Math.random() * possibleTypes.length);
+    const randomType = possibleTypes[randomNum];
+    return new Player(`Random Enemy #${num}`, randomType, 0, 0);
+  }
 }
 
 const player1 = new Player("fighter 1", "fighter", 0, 0);
 const player2 = new Player("warrior 2", "warrior", 0, 0);
+const newPlayer = Player.prototype.createEnemy();
 
-const battle1 = new BattleStage(0, player1, player2, 0);
+const battle1 = new BattleStage(0, player1, newPlayer, 0);
 
 player1.awardExp(20);
 player1.awardExp(20);
-battle1.start(player1, player2);
-battle1.attack(player1, player2);
+battle1.start(player1, newPlayer);
+battle1.attack(player1, newPlayer);
 
 console.log(battle1);
